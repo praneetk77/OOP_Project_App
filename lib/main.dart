@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:oop_project_atm/home_screen.dart';
+import 'package:oop_project_atm/screens/existing_user_screen.dart';
+import 'package:oop_project_atm/screens/home_screen.dart';
+import 'package:oop_project_atm/screens/new_user_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,10 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      home: Scaffold(
+        body: ExistingUserScreen(),
       ),
-      home: HomeScreen(),
     );
   }
 }
