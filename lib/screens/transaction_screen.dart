@@ -1,31 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:oop_project_atm/screens/existing_user_screen.dart';
-import 'package:oop_project_atm/screens/new_user_screen.dart';
+import 'package:oop_project_atm/model/user.dart';
+import 'package:oop_project_atm/screens/deposit_screen.dart';
+import 'package:oop_project_atm/screens/home_screen.dart';
+import 'package:oop_project_atm/screens/withdraw_screen.dart';
 import 'package:oop_project_atm/services/atm_helper.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({required this.atmHelper});
+class TransactionScreen extends StatefulWidget {
+  TransactionScreen({required this.atmHelper, required this.id});
   ATMHelper atmHelper;
+  int id;
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _TransactionScreenState createState() => _TransactionScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
         decoration: BoxDecoration(color: Colors.orangeAccent),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Welcome",
+              "Welcome user number " +
+                  widget.atmHelper.getUser(widget.id).id.toString() +
+                  ", your balance is Rs. " +
+                  widget.atmHelper.getUser(widget.id).balance.toString() +
+                  ".",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black,
@@ -36,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 30,
             ),
             Text(
-              "Are you a new or existing user?",
+              "Please select one of the following options.",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black,
@@ -50,8 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                    builder: (context) => new NewUserScreen(widget.atmHelper),
+                  MaterialPageRoute(
+                    builder: (context) => DepositScreen(
+                        atmHelper: widget.atmHelper, id: widget.id),
                   ),
                 );
               },
@@ -59,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 100,
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  "NEW",
+                  "DEPOSIT",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black),
                 ),
@@ -67,15 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 30,
             ),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                    builder: (context) =>
-                        new ExistingUserScreen(widget.atmHelper),
+                  MaterialPageRoute(
+                    builder: (context) => WithdrawScreen(
+                        atmHelper: widget.atmHelper, id: widget.id),
                   ),
                 );
               },
@@ -83,38 +90,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 100,
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  "EXISTING",
+                  "WITHDRAW",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black),
                 ),
                 decoration: BoxDecoration(color: Colors.deepOrangeAccent),
               ),
-            )
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        HomeScreen(atmHelper: widget.atmHelper),
+                  ),
+                );
+              },
+              child: Container(
+                width: 100,
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "FINISH",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black),
+                ),
+                decoration: BoxDecoration(color: Colors.deepOrangeAccent),
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  String text;
-  Function function;
-  CustomButton({required this.text, required this.function});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: function(),
-      child: Container(
-        width: 100,
-        padding: EdgeInsets.all(10),
-        child: Text(
-          this.text,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black),
-        ),
-        decoration: BoxDecoration(color: Colors.deepOrangeAccent),
       ),
     );
   }
