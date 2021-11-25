@@ -1,6 +1,6 @@
 # oop_project_atm
 
-A new Flutter project.
+This app is created as a GUI for Object Oriented Programming (CS-F213) project no. 4 - Design an ATM Interface.
 
 ## Getting Started
 
